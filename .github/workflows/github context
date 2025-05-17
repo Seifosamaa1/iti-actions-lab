@@ -1,0 +1,66 @@
+name: Show All Contexts
+
+on: [workflow_dispatch]
+
+jobs:
+  print-contexts:
+    runs-on: ubuntu-latest
+    env:
+      MY_ENV_VAR: "I am from env context"
+    steps:
+      - name: Print github context
+        run: |
+          echo "== GITHUB CONTEXT =="
+          echo "Event: ${{ github.event_name }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "SHA: ${{ github.sha }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Run Number: ${{ github.run_number }}"
+          echo "Event Path: ${{ github.event_path }}"
+
+      - name: Print env context
+        run: |
+          echo "== ENV CONTEXT =="
+          echo "MY_ENV_VAR: ${{ env.MY_ENV_VAR }}"
+
+      - name: Print runner context
+        run: |
+          echo "== RUNNER CONTEXT =="
+          echo "OS: ${{ runner.os }}"
+          echo "ARCH: ${{ runner.arch }}"
+          echo "Name: ${{ runner.name }}"
+          echo "Temp dir: ${{ runner.temp }}"
+          echo "Tool cache: ${{ runner.tool_cache }}"
+
+      - name: Print job context
+        run: |
+          echo "== JOB CONTEXT =="
+          echo "Job status: ${{ job.status }}"
+
+      - name: Print strategy context (if exists)
+        run: |
+          echo "== STRATEGY CONTEXT =="
+          echo "Matrix job index: ${{ strategy.job-index }}" || true
+
+      - name: Print matrix context (if exists)
+        run: |
+          echo "== MATRIX CONTEXT =="
+          echo "Matrix var: ${{ matrix.var }}" || true
+
+      - name: Print secrets context (if exists)
+        run: |
+          echo "== SECRETS CONTEXT =="
+          echo "GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Print vars context (if exists)
+        run: |
+          echo "== VARS CONTEXT =="
+          echo "A var: ${{ vars.ANYTHING }}" || true
+
+      - name: Print inputs context (if exists)
+        run: |
+          echo "== INPUTS CONTEXT =="
+          echo "Input var: ${{ inputs.anything }}" || true
